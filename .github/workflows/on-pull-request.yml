@@ -1,0 +1,21 @@
+# .github/workflows/on-pull-request.yml
+name: CI em Pull Requests
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  executar-tarefas-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar o repositório
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Trocar para a branch específica (develop)
+        run: git checkout develop
+      - name: Instalar o interpretador Node.js
+        uses: actions/setup-node@v4
+        with: { node-version: '18' }
+      - name: Instalar as dependências do projeto
+        run: npm install
+      - name: Executar os testes da aplicação
+        run: npm test
