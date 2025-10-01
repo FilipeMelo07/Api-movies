@@ -49,7 +49,12 @@ app.post('/api/filmes', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+
 module.exports = app;
+
+if (require.main === module) {
+  const port = 8080;
+  app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
+}
