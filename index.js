@@ -51,6 +51,9 @@ app.post('/api/filmes', async (req, res) => {
 });
 
 
+// ROTA DELETE (A ser implementada)
+
+
 module.exports = app;
 
 if (require.main === module) {
