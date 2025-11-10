@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node database.js && jest"
+    "test": "node database.js && jest --coverage",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",

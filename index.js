@@ -53,9 +53,9 @@ app.post('/api/filmes', async (req, res) => {
 
 module.exports = app;
 
+
 if (require.main === module) {
-  const port = 8080;
-  app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
+  app.listen(PORT, () => { // <-- USE A VARIÁVEL PORT (maiúscula)
+    console.log(`Servidor rodando na porta ${PORT}`); // <-- USE A VARIÁVEL PORT (maiúscula)
   });
 }
