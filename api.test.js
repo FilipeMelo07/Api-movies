@@ -28,4 +28,16 @@ describe('Testes da API de Filmes', () => {
         expect(response.body.titulo).toBe(filmeParaEnviar.titulo);
         expect(response.body.ano).toBe(filmeParaEnviar.ano);
     });
+    it('POST /api/filmes - Deve retornar 400 se o título ou ano estiverem faltando', async () => {
+        const filmeIncompleto = {
+            titulo: "Filme Sem Ano"
+        };
+
+        const response = await request(app)
+            .post('/api/filmes')
+            .send(filmeIncompleto);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toBe('Título e ano são obrigatórios');
+    });
 });

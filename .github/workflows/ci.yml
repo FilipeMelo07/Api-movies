@@ -1,0 +1,52 @@
+name: CI Pipeline
+
+on:
+  # Roda em pushes para a main
+  push:
+    branches:
+      - main
+  # Roda em Pull Requests para a main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Rodar Testes e Verificar Cobertura
+  test-and-coverage:
+    name: Testes e Cobertura
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Adiciona cache
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes (com cobertura)
+        run: npm test # Falha se a cobertura for < 90%
+
+  # Job 2: Verificação de Estilo (Lint)
+  lint:
+    name: Verificação de Estilo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar o repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar linter
+        run: npm run lint
