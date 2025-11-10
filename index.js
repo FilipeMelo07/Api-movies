@@ -50,6 +50,33 @@ app.post('/api/filmes', async (req, res) => {
     }
 });
 
+app.delete('/api/filmes/:id', async (req, res) => {
+    const { id } = req.params; // Pega o ID da URL
+
+    try {
+        const db = await getDbConnection();
+
+        // 1. Verifica se o filme existe antes de tentar deletar
+        const filme = await db.get('SELECT * FROM filmes WHERE id = ?', [id]);
+
+        // 2. Se o filme não existir, retorne 404 (Not Found)
+        if (!filme) {
+            await db.close();
+            return res.status(404).json({ error: 'Filme não encontrado' });
+        }
+
+        // 3. Se o filme existe, remova-o
+        await db.run('DELETE FROM filmes WHERE id = ?', [id]);
+        await db.close();
+
+        // 4. Retorne 204 (No Content)
+        res.status(204).send();
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 module.exports = app;
 
