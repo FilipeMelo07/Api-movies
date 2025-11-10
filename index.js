@@ -53,7 +53,7 @@ app.post('/api/filmes', async (req, res) => {
 
 module.exports = app;
 
-
+/* istanbul ignore next */
 if (require.main === module) {
   app.listen(PORT, () => { // <-- USE A VARIÁVEL PORT (maiúscula)
     console.log(`Servidor rodando na porta ${PORT}`); // <-- USE A VARIÁVEL PORT (maiúscula)
