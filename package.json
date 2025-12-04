@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node -e \"require('./database').setup('./test.db')\" && jest --coverage",
-    "test:win": "set DATABASE_PATH=./test.db && node -e \"require('./database').setup()\" && set DATABASE_PATH=./test.db && jest --coverage",
+    "test": "jest --coverage --setupFilesAfterEnv ./test-setup.js",
     "lint": "eslint ."
   },
   "keywords": [],

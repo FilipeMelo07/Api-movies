@@ -1,5 +1,5 @@
 const express = require('express');
-const { openDb } = require('./database'); 
+const { openDb, setup } = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 async function getDbConnection() {
-  return openDb(); 
+  return openDb();
 }
 
 app.get('/api/filmes', async (req, res) => {
@@ -70,7 +70,6 @@ module.exports = app;
 
 /* istanbul ignore next */
 if (require.main === module) {
-  // Inicializa o banco ANTES de subir o servidor
   setup()
     .then(() => {
       app.listen(PORT, () => {
@@ -82,20 +81,3 @@ if (require.main === module) {
       process.exit(1);
     });
 }
-
-const { setup } = require('./database');
-
-/* istanbul ignore next */
-if (require.main === module) {
-  setup()
-    .then(() => {
-      app.listen(PORT, () => {
-        console.log(`Servidor rodando na porta ${PORT}`);
-      });
-    })
-    .catch(err => {
-      console.error('Erro ao inicializar banco:', err);
-      process.exit(1);
-    });
-}
-
