@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1764890920105" clover="3.2.0">
-  <project timestamp="1764890920105" name="All files">
+<coverage generated="1764891554669" clover="3.2.0">
+  <project timestamp="1764891554669" name="All files">
     <metrics statements="44" coveredstatements="38" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="5" elements="58" coveredelements="51" complexity="0" loc="44" ncloc="44" packages="1" files="2" classes="2"/>
     <file name="database.js" path="C:\Users\filip\OneDrive\Documentos\sextooo\gestão-configuraçãoII\aaaaaaaaaaa\Api-movies\database.js">
       <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
