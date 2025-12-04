@@ -20,4 +20,4 @@ EXPOSE 8080
 RUN chmod +x ./start.sh
 
 # Define o script de inicialização como o comando principal do container
-CMD ["./start.sh"]
+CMD ["start.sh"]
