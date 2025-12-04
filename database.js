@@ -21,3 +21,8 @@ async function setup(filename = './database.db') {
 }
 
 module.exports = { openDb, setup };
+
+// Roda setup automaticamente só se rodar este arquivo diretamente (não em import)
+if (require.main === module) {
+  setup().catch(console.error);
+}

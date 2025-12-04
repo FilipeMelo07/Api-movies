@@ -82,15 +82,15 @@ if (require.main === module) {
       process.exit(1);
     });
 }
+
+const { setup } = require('./database');
+
 /* istanbul ignore next */
 if (require.main === module) {
-  const { setup } = require('./database');
-  
   setup()
     .then(() => {
       app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
-        console.log('Banco inicializado!');
       });
     })
     .catch(err => {
@@ -98,3 +98,4 @@ if (require.main === module) {
       process.exit(1);
     });
 }
+
