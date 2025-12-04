@@ -1,4 +1,3 @@
-
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 
@@ -9,10 +8,8 @@ async function openDb() {
     });
 }
 
-
 async function setup() {
     const db = await openDb();
-    // Cria a tabela 'filmes' se ela não existir
     await db.exec(`
         CREATE TABLE IF NOT EXISTS filmes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,8 +17,7 @@ async function setup() {
             ano INTEGER NOT NULL
         )
     `);
-
     await db.close();
 }
 
-setup();
+module.exports = { openDb, setup };

@@ -1,25 +1,18 @@
-// Testando o workflow de Pull Request
 const express = require('express');
-const { open } = require('sqlite');
-const sqlite3 = require('sqlite3');
+const { openDb, setup } = require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
-
 async function getDbConnection() {
-    return open({
-        filename: './database.db',
-        driver: sqlite3.Database
-    });
+    return openDb();
 }
 
 app.get('/api/filmes', async (req, res) => {
     try {
         const db = await getDbConnection();
-        // Executa a query para selecionar todos os filmes
         const filmes = await db.all('SELECT * FROM filmes');
         await db.close();
         res.status(200).json(filmes);
@@ -27,9 +20,9 @@ app.get('/api/filmes', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-// NOVA ROTA: Rota POST para inserir um filme no banco de dados
+
 app.post('/api/filmes', async (req, res) => {
-    const { titulo, ano } = req.body; // Pega os dados do corpo da requisição
+    const { titulo, ano } = req.body;
 
     if (!titulo || !ano) {
         return res.status(400).json({ error: 'Título e ano são obrigatórios' });
@@ -37,13 +30,14 @@ app.post('/api/filmes', async (req, res) => {
 
     try {
         const db = await getDbConnection();
-        // O '?' previne SQL Injection
-        const result = await db.run('INSERT INTO filmes (titulo, ano) VALUES (?, ?)', [titulo, ano]);
-        
-        // Retorna o filme recém-criado
+        const result = await db.run(
+            'INSERT INTO filmes (titulo, ano) VALUES (?, ?)',
+            [titulo, ano]
+        );
+
         const novoFilme = { id: result.lastID, titulo, ano };
         await db.close();
-        
+
         res.status(201).json(novoFilme);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -51,38 +45,39 @@ app.post('/api/filmes', async (req, res) => {
 });
 
 app.delete('/api/filmes/:id', async (req, res) => {
-    const { id } = req.params; // Pega o ID da URL
+    const { id } = req.params;
 
     try {
         const db = await getDbConnection();
 
-        // 1. Verifica se o filme existe antes de tentar deletar
         const filme = await db.get('SELECT * FROM filmes WHERE id = ?', [id]);
 
-        // 2. Se o filme não existir, retorne 404 (Not Found)
         if (!filme) {
             await db.close();
             return res.status(404).json({ error: 'Filme não encontrado' });
         }
 
-        // 3. Se o filme existe, remova-o
         await db.run('DELETE FROM filmes WHERE id = ?', [id]);
         await db.close();
 
-        // 4. Retorne 204 (No Content)
         res.status(204).send();
-
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-
 module.exports = app;
 
 /* istanbul ignore next */
 if (require.main === module) {
-  app.listen(PORT, () => { // <-- USE A VARIÁVEL PORT (maiúscula)
-    console.log(`Servidor rodando na porta ${PORT}`); // <-- USE A VARIÁVEL PORT (maiúscula)
-  });
+    setup()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log(`Servidor rodando na porta ${PORT}`);
+            });
+        })
+        .catch(err => {
+            console.error('Erro ao inicializar banco:', err);
+            process.exit(1);
+        });
 }
