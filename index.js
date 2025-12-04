@@ -1,5 +1,5 @@
 const express = require('express');
-const { openDb, setup } = require('./database'); // importa do database.js
+const { openDb } = require('./database'); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 async function getDbConnection() {
-  return openDb();
+  return openDb(); 
 }
 
 app.get('/api/filmes', async (req, res) => {
@@ -75,6 +75,22 @@ if (require.main === module) {
     .then(() => {
       app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
+      });
+    })
+    .catch(err => {
+      console.error('Erro ao inicializar banco:', err);
+      process.exit(1);
+    });
+}
+/* istanbul ignore next */
+if (require.main === module) {
+  const { setup } = require('./database');
+  
+  setup()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+        console.log('Banco inicializado!');
       });
     })
     .catch(err => {
