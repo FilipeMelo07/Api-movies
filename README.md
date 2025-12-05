@@ -64,3 +64,13 @@ O GitHub Flow é um workflow ágil e simplificado, ideal para projetos que busca
 4.  **Deploy contínuo:** Após o merge na `main`, o código pode ser imediatamente enviado para produção.
 
 Este fluxo garantiu que a adição da persistência com SQLite e a criação de cada rota fossem desenvolvidas de forma isolada, mantendo a `main` sempre estável.
+
+---
+
+##  Imagem Docker
+
+A imagem oficial deste projeto é construída e publicada automaticamente no Docker Hub.
+
+[![Docker Pulls](https://badgen.net/docker/pulls/filipemelo07/api-movies?icon=docker&label=Pulls&color=blue)](https://hub.docker.com/r/filipemelo07/api-movies)
+
+**Link do Repositório:** [https://hub.docker.com/r/filipemelo07/api-movies](https://hub.docker.com/r/filipemelo07/api-movies)
