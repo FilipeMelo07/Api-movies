@@ -1,2 +1,9 @@
-[api_movies]
-vm-ubuntu ansible_host=192.168.1.13 ansible_user=adminfilipe ansible_ssh_private_key_file=~/.ssh/id_rsa
+[docker_servers]
+local-docker ansible_host=localhost ansible_user=root ansible_password=teste123 ansible_port=2222
+
+[docker_servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+node_version=18
+app_port=3000
+app_env=development
+
