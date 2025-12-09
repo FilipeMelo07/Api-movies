@@ -1,0 +1,52 @@
+---
+- name: Testar API no Play with Docker
+  hosts: docker_servers
+  
+  tasks:
+    - name: Verificar Node.js
+      command: node --version
+      register: node_check
+      changed_when: false
+    
+    - name: Verificar PM2
+      command: pm2 --version
+      register: pm2_check
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Listar processos PM2
+      command: pm2 list
+      register: pm2_list
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Exibir processos
+      debug:
+        var: pm2_list.stdout_lines
+      when: pm2_list is succeeded
+    
+    - name: Testar endpoint raiz
+      uri:
+        url: "http://localhost:3000/"
+        method: GET
+        return_content: yes
+      register: root_response
+      ignore_errors: yes
+    
+    - name: Exibir resposta
+      debug:
+        var: root_response.json
+      when: root_response is succeeded
+    
+    - name: Testar health check
+      uri:
+        url: "http://localhost:3000/health"
+        method: GET
+        return_content: yes
+      register: health_response
+      ignore_errors: yes
+    
+    - name: Exibir health check
+      debug:
+        var: health_response.json
+      when: health_response is succeeded
